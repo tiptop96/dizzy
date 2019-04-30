@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dizzy
+spec:
+  replicas: 5
+  selector: # Tells this Deployment how to find the Pods it manage.
+    matchLabels:
+      app: dizzy
+  template:
+    metadata:
+      labels:
+        app: dizzy # Label used by "matchLabels" in the selector above
+        tier: frontend
+    spec:
+      containers:
+      - name: dizzy
+        image: dizzy:1.0.1
+        env:
+        - name: REDIS_URL
+          value: redis #.default.svc.cluster.local
+        - name: REDIS_PORT
+          value: "6379"
+        - name: PORT
+          value: "3000"
+        ports:
+        - containerPort: 3000 # Change ports
